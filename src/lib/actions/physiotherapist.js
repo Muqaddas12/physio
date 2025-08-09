@@ -204,8 +204,6 @@ export async function getAllAvailablePhysiotherapists(skip = 0, limit = 50) {
   }
 }
 
-
-
 export async function getTwentyRandomTherapists() {
   try {
     const all = await prisma.physiotherapistProfile.findMany({

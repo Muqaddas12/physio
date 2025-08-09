@@ -9,6 +9,7 @@ import {
   Dumbbell, ClipboardList, Smile, Brain, Baby,
   Lock, FileLock, Cookie, Eye
 } from "lucide-react";
+import {Link} from "next/link";
 
 const Footer = () => {
   return (
@@ -21,7 +22,7 @@ const Footer = () => {
           {/* Company Info */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-54 h-54 rounded-lg flex items-center justify-center overflow-hidden">
+              <div className=" h-54 rounded-lg flex overflow-hidden">
                 <img
                   src="/logo.png"
                   alt="Abhaile Physiotherapy Logo"
@@ -66,7 +67,10 @@ const Footer = () => {
               <Heart className="h-5 w-5 text-green-500" /> For Patients
             </h3>
             <ul className="space-y-2 text-gray-600">
-              <li className="flex items-center gap-2"><Search className="h-4 w-4 text-green-500" /> Find Therapists</li>
+        <li className="flex items-center gap-2">
+  <Search className="h-4 w-4 text-green-500" />
+  <a href="/find-therapist">Find Therapists</a>
+</li>
               <li className="flex items-center gap-2"><Calendar className="h-4 w-4 text-green-500" /> Book Appointment</li>
               <li className="flex items-center gap-2"><Activity className="h-4 w-4 text-green-500" /> Treatment Areas</li>
               <li className="flex items-center gap-2"><Wallet className="h-4 w-4 text-green-500" /> Insurance Coverage</li>

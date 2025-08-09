@@ -34,43 +34,44 @@ const SpecializationsPage = () => {
   return (
     <>
       <section className="relative bg-gradient-to-br from-[#7ce3b1]/10 via-white to-[#7ce3b1]/5 min-h-screen py-20 px-4 overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-10"
-          style={{ backgroundImage: "url('/bone.png')" }}
-        ></div>
-
+      
         <div className="relative z-10 max-w-7xl mx-auto">
-          <div className="text-center space-y-6 mb-16 animate-fade-in-up">
-            <div className="inline-flex items-center gap-2 bg-[#7ce3b1]/20 px-4 py-2 rounded-full">
-              <Stethoscope className="h-5 w-5 text-[#7ce3b1]" />
-              <span className="text-[#5eb893] font-medium">Our Specializations</span>
-            </div>
+      <div className="rounded-2xl shadow-xl backdrop-blur-sm bg-white/80 p-8 text-center space-y-6 mb-16 animate-fade-in-up transition duration-500">
+  {/* Badge */}
+  <div className="inline-flex items-center gap-2 bg-green-50 px-4 py-2 rounded-full animate-fade-in">
+    <Stethoscope className="h-5 w-5 text-green-400 transition-transform duration-500 hover:scale-110" />
+    <span className="text-green-500 font-semibold tracking-wide">Our Specializations</span>
+  </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-green-500 leading-tight">
-              Expert Care in
-              <span className="text-green-500 block">Every Specialty</span>
-            </h1>
+  {/* Heading */}
+  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-green-600 leading-tight animate-fade-in delay-100">
+    Expert Care in
+    <span className="text-green-400 block">Every Specialty</span>
+  </h1>
 
-            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
-              Discover our comprehensive range of physiotherapy specializations.
-              Each treatment area is designed to provide targeted care for your specific needs.
-            </p>
+  {/* Description */}
+  <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed animate-fade-in delay-200">
+    Discover our comprehensive range of physiotherapy specializations.
+    Each treatment area is designed to provide targeted care for your specific needs.
+  </p>
 
-            <div className="flex flex-wrap justify-center gap-6 pt-4">
-              <div className="flex items-center gap-2">
-                <Heart className="h-5 w-5 text-[#7ce3b1]" />
-                <span className="text-gray-700 font-medium">Personalized Care</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Users className="h-5 w-5 text-[#6dd4a2]" />
-                <span className="text-gray-700 font-medium">Expert Therapists</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Star className="h-5 w-5 text-[#5eb893]" />
-                <span className="text-gray-700 font-medium">Proven Results</span>
-              </div>
-            </div>
-          </div>
+  {/* Features */}
+  <div className="flex flex-wrap justify-center gap-6 pt-4">
+    <div className="flex items-center gap-2 animate-fade-in-up delay-300">
+      <Heart className="h-5 w-5 text-green-400 transition-transform duration-500 hover:scale-110" />
+      <span className="text-gray-700 font-medium tracking-wide">Personalized Care</span>
+    </div>
+    <div className="flex items-center gap-2 animate-fade-in-up delay-400">
+      <Users className="h-5 w-5 text-green-400 transition-transform duration-500 hover:scale-110" />
+      <span className="text-gray-700 font-medium tracking-wide">Expert Therapists</span>
+    </div>
+    <div className="flex items-center gap-2 animate-fade-in-up delay-500">
+      <Star className="h-5 w-5 text-green-400 transition-transform duration-500 hover:scale-110" />
+      <span className="text-gray-700 font-medium tracking-wide">Proven Results</span>
+    </div>
+  </div>
+</div>
+
 
           {/* Loading Skeleton */}
           {loading && (
@@ -100,33 +101,37 @@ const SpecializationsPage = () => {
             </div>
           )}
 
-          {/* Specializations Grid */}
-          {!loading && !error && specializations.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {specializations.map((spec, index) => (
-                <div
-                  key={spec.id || index}
-                  className="bg-white rounded-2xl shadow-lg hover:shadow-2xl p-6 border hover:border-[#7ce3b1]/50 transition-transform duration-300 hover:scale-105"
-                >
-                  <div className="inline-flex items-center justify-center w-10 h-10 bg-gradient-to-r from-[#7ce3b1] to-[#6dd4a2] text-white rounded-xl font-bold mb-4">
-                    {index + 1}
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                    {spec.name}
-                  </h3>
-                  <p className="text-gray-600 mb-4">
-                    {spec.description || "Specialized physiotherapy treatment tailored to your needs."}
-                  </p>
-                  <a
-                    href={`/services/${spec.name }`}
-                    className="block text-center bg-emerald-600 from-[#7ce3b1] to-[#6dd4a2] text-white py-2 rounded-lg font-medium hover:from-[#6dd4a2] hover:to-[#5eb893] transition"
-                  >
-                    View Therapists
-                  </a>
-                </div>
-              ))}
-            </div>
-          )}
+{/* Specializations Grid */}
+{!loading && !error && specializations.length > 0 && (
+  <div className="flex flex-wrap gap-8 justify-center">
+    {specializations.map((spec, index) => (
+      <div
+        key={spec.id || index}
+        className="bg-white rounded-2xl shadow-lg hover:shadow-2xl p-6 border hover:border-[#7ce3b1]/50 
+                   transition-transform duration-300 hover:scale-105 
+                   w-full sm:w-[calc(50%-1rem)] lg:w-[calc(45%-1rem)] xl:w-[calc(30%-1rem)]"
+      >
+        <div className="inline-flex items-center justify-center w-10 h-10 bg-gradient-to-r from-[#7ce3b1] to-[#6dd4a2] text-white rounded-xl font-bold mb-4">
+          {index + 1}
+        </div>
+        <h3 className="text-xl font-semibold text-gray-800 mb-2">
+          {spec.name}
+        </h3>
+        <p className="text-gray-600 mb-4">
+          {spec.description ||
+            "Specialized physiotherapy treatment tailored to your needs."}
+        </p>
+        <a
+          href={`/services/${spec.name}`}
+          className="block text-center bg-emerald-600 from-[#7ce3b1] to-[#6dd4a2] text-white py-2 rounded-lg font-medium hover:from-[#6dd4a2] hover:to-[#5eb893] transition"
+        >
+          View Therapists
+        </a>
+      </div>
+    ))}
+  </div>
+)}
+
 
           {/* No Specializations */}
           {!loading && !error && specializations.length === 0 && (

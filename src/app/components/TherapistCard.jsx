@@ -1,40 +1,65 @@
-'use client'
+'use client';
 
 import React, { useState, useTransition } from "react";
 import { Phone, Mail, MapPin } from "lucide-react";
 import { createCheckoutSession } from "@/lib/actions/stripe";
 
-export default function TherapistCard({ therapist, userId }) {
+export default function TherapistCard({ therapist }) {
   const [loading, setLoading] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const [selectedSlot, setSelectedSlot] = useState(null);
+  const [error, setError] = useState(null);
+  
   const clinic = therapist.clinics?.[0];
 
+  // Clean price string to number
+  const priceNumber = Number(therapist.price.replace(/[^\d.]/g, ""));
+  const amountCents = Math.round(priceNumber * 100);
+
   async function handleBook() {
-    console.log(therapist.id)
+    if (!selectedSlot) {
+      setError("Please select a time slot");
+      return;
+    }
+
+    // Hardcoded for demo - replace with actual user auth
+    const userId = 425; 
+    const bookingId = Math.floor(Math.random() * 10000); // Temporary - replace with actual booking creation
+    
     setLoading(true);
-    const price=therapist.price.replace('€','')
+    setError(null);
+
     startTransition(async () => {
       try {
         const session = await createCheckoutSession({
           therapistId: therapist.id,
           userId,
-          amount: ( price) * 100,
-          currency: "usd",
+          bookingId,
+          amount: priceNumber, // Pass the amount in euros, not cents
+          paymentMethodId: 1, // Default payment method - replace with user's selection
+          currency: "EUR",
           therapistName: therapist.name,
+          slot: selectedSlot
         });
 
-        if (session.url) {
+        if (session?.url) {
           window.location.href = session.url;
         } else {
-          alert("Failed to start payment");
-          setLoading(false);
+          throw new Error("Failed to create payment session");
         }
       } catch (error) {
-        alert("Error: " + error.message);
+        console.error("Booking error:", error);
+        setError(error.message || "Failed to book appointment");
+      } finally {
         setLoading(false);
       }
     });
   }
+
+  const handleSlotSelect = (slot) => {
+    setSelectedSlot(slot);
+    setError(null);
+  };
 
   return (
     <div className="bg-white border border-emerald-100 p-6 rounded-2xl shadow-md space-y-4 w-full max-w-lg mx-auto">
@@ -59,7 +84,7 @@ export default function TherapistCard({ therapist, userId }) {
         </div>
 
         <div className="text-right">
-          <p className="text-emerald-600 text-lg font-semibold">{therapist.price}</p>
+          <p className="text-emerald-600 text-lg font-semibold">{priceNumber.toFixed(2)} €</p>
           <p className="text-xs text-gray-400">per session</p>
         </div>
       </div>
@@ -98,7 +123,12 @@ export default function TherapistCard({ therapist, userId }) {
           {(therapist.availableSlots || ["09:00 AM", "11:00 AM", "02:00 PM", "04:00 PM"]).map((slot, i) => (
             <button
               key={i}
-              className="border border-emerald-500 text-emerald-600 text-sm px-3 py-1 rounded-md hover:bg-emerald-50"
+              onClick={() => handleSlotSelect(slot)}
+              className={`border text-sm px-3 py-1 rounded-md ${
+                selectedSlot === slot 
+                  ? 'bg-emerald-500 text-white border-emerald-500' 
+                  : 'border-emerald-500 text-emerald-600 hover:bg-emerald-50'
+              }`}
               type="button"
             >
               {slot}
@@ -107,12 +137,21 @@ export default function TherapistCard({ therapist, userId }) {
         </div>
       </div>
 
+      {/* Error message */}
+      {error && (
+        <div className="text-red-500 text-sm mt-2">
+          {error}
+        </div>
+      )}
+
       {/* Actions */}
       <div className="flex items-center gap-3 mt-4">
         <button
           onClick={handleBook}
           disabled={loading || isPending}
-          className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold py-2 rounded-md"
+          className={`flex-1 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold py-2 rounded-md ${
+            (loading || isPending) ? 'opacity-75 cursor-not-allowed' : ''
+          }`}
         >
           {loading || isPending ? "Processing..." : "Book Appointment"}
         </button>

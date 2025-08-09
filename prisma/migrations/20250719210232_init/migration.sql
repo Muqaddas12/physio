@@ -7,6 +7,30 @@ CREATE TYPE "payment_status" AS ENUM ('pending', 'completed', 'failed', 'refunde
 -- CreateEnum
 CREATE TYPE "notification_type" AS ENUM ('booking', 'payment', 'reminder', 'system');
 
+
+
+
+CREATE TABLE "Payment" (
+    "id" SERIAL NOT NULL,
+    "stripeId" VARCHAR(255) NOT NULL UNIQUE,
+    "amount" INTEGER NOT NULL,
+    "currency" VARCHAR(10) NOT NULL,
+    "status" VARCHAR(50) NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Payment_pkey" PRIMARY KEY ("id"),
+    CONSTRAINT "Payment_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users" ("id")
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+
+
+
+
+
 -- CreateTable
 CREATE TABLE "cities" (
     "id" SERIAL NOT NULL,

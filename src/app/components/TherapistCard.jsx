@@ -1,7 +1,40 @@
-import { Phone, Mail, MapPin } from "lucide-react";
+'use client'
 
-export default function TherapistCard({ therapist }) {
-  const clinic = therapist.clinics?.[0]; // First clinic
+import React, { useState, useTransition } from "react";
+import { Phone, Mail, MapPin } from "lucide-react";
+import { createCheckoutSession } from "@/lib/actions/stripe";
+
+export default function TherapistCard({ therapist, userId }) {
+  const [loading, setLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const clinic = therapist.clinics?.[0];
+
+  async function handleBook() {
+    console.log(therapist.id)
+    setLoading(true);
+    const price=therapist.price.replace('€','')
+    startTransition(async () => {
+      try {
+        const session = await createCheckoutSession({
+          therapistId: therapist.id,
+          userId,
+          amount: ( price) * 100,
+          currency: "usd",
+          therapistName: therapist.name,
+        });
+
+        if (session.url) {
+          window.location.href = session.url;
+        } else {
+          alert("Failed to start payment");
+          setLoading(false);
+        }
+      } catch (error) {
+        alert("Error: " + error.message);
+        setLoading(false);
+      }
+    });
+  }
 
   return (
     <div className="bg-white border border-emerald-100 p-6 rounded-2xl shadow-md space-y-4 w-full max-w-lg mx-auto">
@@ -14,12 +47,8 @@ export default function TherapistCard({ therapist }) {
             className="w-14 h-14 rounded-full object-cover border border-gray-200"
           />
           <div>
-            <h3 className="text-lg font-bold text-gray-900">
-              {therapist.name}
-            </h3>
-            <p className="text-sm text-emerald-600 font-medium">
-              {therapist.specialization}
-            </p>
+            <h3 className="text-lg font-bold text-gray-900">{therapist.name}</h3>
+            <p className="text-sm text-emerald-600 font-medium">{therapist.specialization}</p>
             {clinic?.city && (
               <div className="flex items-center gap-1 text-xs text-gray-500 mt-1">
                 <MapPin className="w-4 h-4" />
@@ -30,16 +59,16 @@ export default function TherapistCard({ therapist }) {
         </div>
 
         <div className="text-right">
-          <p className="text-emerald-600 text-lg font-semibold">
-            {therapist.price}
-          </p>
+          <p className="text-emerald-600 text-lg font-semibold">{therapist.price}</p>
           <p className="text-xs text-gray-400">per session</p>
         </div>
       </div>
 
       {/* Rating + Experience */}
       <div className="flex items-center gap-4 text-sm text-gray-500">
-        <span>⭐ {therapist.rating} ({therapist.reviews} reviews)</span>
+        <span>
+          ⭐ {therapist.rating} ({therapist.reviews} reviews)
+        </span>
         <span>•</span>
         <span>{therapist.experience} years</span>
       </div>
@@ -70,6 +99,7 @@ export default function TherapistCard({ therapist }) {
             <button
               key={i}
               className="border border-emerald-500 text-emerald-600 text-sm px-3 py-1 rounded-md hover:bg-emerald-50"
+              type="button"
             >
               {slot}
             </button>
@@ -79,8 +109,12 @@ export default function TherapistCard({ therapist }) {
 
       {/* Actions */}
       <div className="flex items-center gap-3 mt-4">
-        <button className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold py-2 rounded-md">
-          Book Appointment
+        <button
+          onClick={handleBook}
+          disabled={loading || isPending}
+          className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold py-2 rounded-md"
+        >
+          {loading || isPending ? "Processing..." : "Book Appointment"}
         </button>
 
         {therapist.phone && (

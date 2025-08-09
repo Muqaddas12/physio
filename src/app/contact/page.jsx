@@ -109,7 +109,7 @@ export default function ContactPage() {
                 href="tel:+1234567890"
                 className="block text-emerald-600 hover:underline"
               >
-                📞 Call us: +1 234 567 890
+                📞 Call us: 1-800-ABHAILE (864-7479)
               </a>
               <a
                 href="https://wa.me/1234567890"

@@ -9,22 +9,6 @@ CREATE TYPE "notification_type" AS ENUM ('booking', 'payment', 'reminder', 'syst
 
 
 
-CREATE TABLE "Payment" (
-    "id" SERIAL PRIMARY KEY,
-    "stripeId" VARCHAR(255) UNIQUE NOT NULL,
-    "amount" INTEGER NOT NULL,
-    "currency" VARCHAR(10) NOT NULL,
-    "status" VARCHAR(50) NOT NULL,
-    "userId" INTEGER NOT NULL,                        -- patient who paid
-    "physiotherapistProfileId" INTEGER NOT NULL,     -- doctor who received payment
-    "purpose" VARCHAR(255) NOT NULL,
-    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT fk_user FOREIGN KEY ("userId") REFERENCES "users" ("id") ON DELETE RESTRICT,
-    CONSTRAINT fk_physio FOREIGN KEY ("physiotherapistProfileId") REFERENCES "physiotherapist_profiles" ("id") ON DELETE RESTRICT
-);
-
 
 
 

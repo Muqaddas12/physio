@@ -7,21 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Payment {
-  id                      Int                    @id @default(autoincrement())
-  stripeId                String                 @unique
-  amount                  Int
-  currency                String
-  status                  String
-  userId                  Int
-  physiotherapistProfileId Int
-  purpose                 String
-  createdAt               DateTime               @default(now())
-  updatedAt               DateTime               @updatedAt
-
-  user                    User                   @relation(fields: [userId], references: [id])
-  physiotherapistProfile  PhysiotherapistProfile  @relation(fields: [physiotherapistProfileId], references: [id])
-}
 
 
 
@@ -79,7 +64,7 @@ model User {
   reviews                Review[]
   addresses              UserAddress[]
   role                   UserRole                @relation(fields: [roleId], references: [id])
-  payments               Payment[]
+ 
   @@index([email], map: "idx_email")
   @@index([roleId], map: "idx_role")
   @@map("users")

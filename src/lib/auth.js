@@ -10,6 +10,23 @@ import { z } from "zod";
 const prisma = new PrismaClient();
 console.log('PRISMA DEBUG: DATABASE_URL =', process.env.DATABASE_URL);
 
+export async function getDecodedAuth() {
+
+  const token = cookies().get("auth-token")?.value;
+  if (!token) return null;
+
+  try {
+
+    return jwt.verify(token, process.env.JWT_SECRET);
+  } catch (error) {
+    console.error("Invalid token:", error);
+    return null;
+  }
+}
+
+
+
+
 // Validation schemas
 const signupSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -272,7 +289,7 @@ export async function getCurrentUser() {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log('PRISMA DEBUG: Decoded JWT:', decoded);
+
 
     const user = await prisma.user.findUnique({
       where: { id: Number(decoded.userId) },

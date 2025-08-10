@@ -2,9 +2,11 @@
 
 import React, { useState, useTransition } from "react";
 import { Phone, Mail, MapPin } from "lucide-react";
-import { createCheckoutSession } from "@/lib/actions/stripe";
-
+import { useRouter } from 'next/navigation'
+import { createBookingAndPayment } from "@/lib/actions/stripe";
+import { getCurrentUser } from "@/lib/auth";
 export default function TherapistCard({ therapist }) {
+  const router=useRouter()
   const [loading, setLoading] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [selectedSlot, setSelectedSlot] = useState(null);
@@ -12,38 +14,48 @@ export default function TherapistCard({ therapist }) {
   
   const clinic = therapist.clinics?.[0];
 
-  // Clean price string to number
-  const priceNumber = Number(therapist.price.replace(/[^\d.]/g, ""));
-  const amountCents = Math.round(priceNumber * 100);
 
-  async function handleBook() {
+async function handleBook() {
+
+  try {
+
+    const priceNumber = Number(therapist.price.replace(/[^\d.]/g, ""));
+    const amountCents = Math.round(priceNumber * 100);
+
+    const user = await getCurrentUser();
+
+ 
+    if (!user) {
+      if (confirm("Login First. Do you want to go to the login page?")) {
+        router.push("/login");
+      }
+      return; 
+    }
+
+
     if (!selectedSlot) {
       setError("Please select a time slot");
       return;
     }
 
-    // Hardcoded for demo - replace with actual user auth
-    const userId = 425; 
-    const bookingId = Math.floor(Math.random() * 10000); // Temporary - replace with actual booking creation
-    
     setLoading(true);
     setError(null);
 
     startTransition(async () => {
       try {
-        const session = await createCheckoutSession({
-          therapistId: therapist.id,
-          userId,
-          bookingId,
-          amount: priceNumber, // Pass the amount in euros, not cents
-          paymentMethodId: 1, // Default payment method - replace with user's selection
+        const session = await createBookingAndPayment({
+          patientId: user.id, 
+          physiotherapistId: therapist.id,
+          clinicId: therapist.clinics?.[0]?.id || 1, 
+          appointmentTime: selectedSlot,
+          totalAmount: priceNumber,
           currency: "EUR",
-          therapistName: therapist.name,
-          slot: selectedSlot
+          paymentMethodId: 'card',
+          specialization:therapist.specialization,
         });
 
-        if (session?.url) {
-          window.location.href = session.url;
+        if (session?.checkoutUrl) {
+          window.location.href = session.checkoutUrl;
         } else {
           throw new Error("Failed to create payment session");
         }
@@ -54,7 +66,19 @@ export default function TherapistCard({ therapist }) {
         setLoading(false);
       }
     });
+
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    setError("Something went wrong, please try again later.");
   }
+}
+
+
+
+
+
+
+
 
   const handleSlotSelect = (slot) => {
     setSelectedSlot(slot);
@@ -84,7 +108,7 @@ export default function TherapistCard({ therapist }) {
         </div>
 
         <div className="text-right">
-          <p className="text-emerald-600 text-lg font-semibold">{priceNumber.toFixed(2)} €</p>
+          <p className="text-emerald-600 text-lg font-semibold">{therapist.price}</p>
           <p className="text-xs text-gray-400">per session</p>
         </div>
       </div>

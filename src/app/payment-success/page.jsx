@@ -15,11 +15,11 @@ export default async function PaymentSuccess({ searchParams }) {
   const session = await stripe.checkout.sessions.retrieve(sessionId);
 
   // Extract metadata: you must have passed bookingId and paymentMethodId in metadata
-  const { bookingId,  } = session.metadata;
+   const bookingId = searchParams.booking_id; 
 
-  if (!bookingId) {
-    return <p className="p-6 text-center">Missing booking or payment method info</p>;
-  }
+  // if (!bookingId) {
+  //   return <p className="p-6 text-center">Missing booking or payment method info</p>;
+  // }
 
 
   
@@ -30,6 +30,7 @@ export default async function PaymentSuccess({ searchParams }) {
       <p>Thank you for booking your appointment.</p>
       <p><strong>Amount Paid:</strong> €{(session.amount_total / 100).toFixed(2)}</p>
       <p><strong>Status:</strong> {session.payment_status}</p>
+      <p><strong>Your Booking Reference Number:</strong> {bookingId}</p>
     </div>
   );
 }

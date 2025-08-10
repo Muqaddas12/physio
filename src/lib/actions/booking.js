@@ -43,7 +43,7 @@ async function initializeBookingStatuses() {
   }
 }
 
-function generateBookingReference() {
+ function generateBookingReference() {
   // Generate a shorter reference that fits in 20 characters
   const timestamp = Date.now().toString(36).slice(-6) // Last 6 chars of timestamp
   const random = Math.random().toString(36).substr(2, 6) // 6 random chars
@@ -157,6 +157,7 @@ export async function createBooking({
     if (!isUnique) {
       return { success: false, error: 'Failed to generate unique booking reference' }
     }
+const timeWithoutAmPm = appointmentTime.replace(/(AM|PM)/, '').trim();
 
     // Prepare booking data
     const bookingData = {
@@ -165,7 +166,7 @@ export async function createBooking({
       physiotherapistId,
       clinicId,
       appointmentDate: new Date(appointmentDate),
-      appointmentTime,
+      appointmentTime :timeWithoutAmPm,
       durationMinutes,
       statusId: pendingStatus.id,
       treatmentTypeId,

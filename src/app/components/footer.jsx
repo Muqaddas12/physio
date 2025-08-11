@@ -87,7 +87,7 @@ const Footer = () => {
               <Stethoscope className="h-5 w-5 text-green-500" /> For Therapists
             </h3>
             <ul className="space-y-2 text-gray-600">
-              <li className="flex items-center gap-2"><UserPlus className="h-4 w-4 text-green-500" /> Join Our Network</li>
+              <li className="flex items-center gap-2"><UserPlus className="h-4 w-4 text-green-500" /> <a href="/register-therapist">Join Our Network</a></li>
               <li className="flex items-center gap-2"><Settings className="h-4 w-4 text-green-500" /> Therapist Portal</li>
               <li className="flex items-center gap-2"><Library className="h-4 w-4 text-green-500" /> Professional Resources</li>
               <li className="flex items-center gap-2"><GraduationCap className="h-4 w-4 text-green-500" /> Continuing Education</li>
@@ -104,14 +104,14 @@ const Footer = () => {
               <Briefcase className="h-5 w-5 text-green-500" /> Company
             </h3>
             <ul className="space-y-2 text-gray-600">
-              <li className="flex items-center gap-2"><Info className="h-4 w-4 text-green-500" /> About Us</li>
+              <li className="flex items-center gap-2"><Info className="h-4 w-4 text-green-500" /> <a href="/about">About Us</a></li>
               <li className="flex items-center gap-2"><Target className="h-4 w-4 text-green-500" /> Our Mission</li>
               <li className="flex items-center gap-2"><Users2 className="h-4 w-4 text-green-500" /> Leadership Team</li>
               <li className="flex items-center gap-2"><BriefcaseBusiness className="h-4 w-4 text-green-500" /> Careers</li>
               <li className="flex items-center gap-2"><Newspaper className="h-4 w-4 text-green-500" /> Press & Media</li>
               <li className="flex items-center gap-2"><DollarSign className="h-4 w-4 text-green-500" /> Investor Relations</li>
               <li className="flex items-center gap-2"><PenTool className="h-4 w-4 text-green-500" /> Blog</li>
-              <li className="flex items-center gap-2"><Headset className="h-4 w-4 text-green-500" /> Contact Us</li>
+              <li className="flex items-center gap-2"><Headset className="h-4 w-4 text-green-500" /> <a href="contact">Contact Us</a></li>
             </ul>
           </div>
         </div>

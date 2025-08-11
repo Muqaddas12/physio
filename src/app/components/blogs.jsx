@@ -133,7 +133,7 @@ export default function BlogsSection() {
         </div>
 
         <div className="text-center mt-12">
-          <button className="bg-[#7ce3b1] hover:bg-emerald-600 text-white px-8 py-3 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300">
+          <button className="bg-emerald-600 hover:bg-emerald-600 text-white px-8 py-3 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300">
             View All Articles
           </button>
         </div>

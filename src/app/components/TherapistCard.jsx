@@ -1,88 +1,100 @@
 'use client';
 
 import React, { useState, useTransition } from "react";
-import { Phone, Mail, MapPin } from "lucide-react";
+import { Phone, Mail, MapPin, Calendar as CalendarIcon } from "lucide-react";
 import { useRouter } from 'next/navigation'
 import { createBookingAndPayment } from "@/lib/actions/stripe";
 import { getCurrentUser } from "@/lib/auth";
+import AppointmentDatePicker from "./AppointmentDatePicker";
+import { getFilteredAvailableSlots } from "@/lib/actions/availability";
+
 export default function TherapistCard({ therapist }) {
-  const router=useRouter()
+
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [selectedSlot, setSelectedSlot] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [showCalendar, setShowCalendar] = useState(false);
   const [error, setError] = useState(null);
-  
+  const [availableSlots, setAvailableSlots] = useState([]);
+  const [fetchingSlots, setFetchingSlots] = useState(false);
+
   const clinic = therapist.clinics?.[0];
 
+  async function handleBook() {
+    try {
+      const priceNumber = Number(therapist.price.replace(/[^\d.]/g, ""));
+      const user = await getCurrentUser();
 
-async function handleBook() {
-
-  try {
-
-    const priceNumber = Number(therapist.price.replace(/[^\d.]/g, ""));
-    const amountCents = Math.round(priceNumber * 100);
-
-    const user = await getCurrentUser();
-
- 
-    if (!user) {
-      if (confirm("Login First. Do you want to go to the login page?")) {
-        router.push("/login");
-      }
-      return; 
-    }
-
-
-    if (!selectedSlot) {
-      setError("Please select a time slot");
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-
-    startTransition(async () => {
-      try {
-        const session = await createBookingAndPayment({
-          patientId: user.id, 
-          physiotherapistId: therapist.id,
-          clinicId: therapist.clinics?.[0]?.id || 1, 
-          appointmentTime: selectedSlot,
-          totalAmount: priceNumber,
-          currency: "EUR",
-          paymentMethodId: 'card',
-          specialization:therapist.specialization,
-        });
-
-        if (session?.checkoutUrl) {
-          window.location.href = session.checkoutUrl;
-        } else {
-          throw new Error("Failed to create payment session");
+      if (!user) {
+        if (confirm("Login First. Do you want to go to the login page?")) {
+          router.push("/login");
         }
-      } catch (error) {
-        console.error("Booking error:", error);
-        setError(error.message || "Failed to book appointment");
-      } finally {
-        setLoading(false);
+        return; 
       }
-    });
 
-  } catch (error) {
-    console.error("Unexpected error:", error);
-    setError("Something went wrong, please try again later.");
+      if (!selectedDate) {
+        setError("Please select an appointment date");
+        return;
+      }
+
+      if (!selectedSlot) {
+        setError("Please select a time slot");
+        return;
+      }
+
+      setLoading(true);
+      setError(null);
+
+      startTransition(async () => {
+        try {
+          const session = await createBookingAndPayment({
+            patientId: user.id, 
+            physiotherapistId: therapist.id,
+            clinicId: therapist.clinics?.[0]?.id || 1, 
+            appointmentDate: selectedDate,
+            appointmentTime: selectedSlot,
+            totalAmount: priceNumber,
+            currency: "EUR",
+            paymentMethodId: 'card',
+            specialization: therapist.specialization,
+          });
+
+          if (session?.checkoutUrl) {
+            window.location.href = session.checkoutUrl;
+          } else {
+            throw new Error("Failed to create payment session");
+          }
+        } catch (error) {
+          console.error("Booking error:", error);
+          setError(error.message || "Failed to book appointment");
+        } finally {
+          setLoading(false);
+        }
+      });
+
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      setError("Something went wrong, please try again later.");
+    }
   }
-}
-
-
-
-
-
-
-
 
   const handleSlotSelect = (slot) => {
     setSelectedSlot(slot);
     setError(null);
+  };
+
+  const handleDateChange = async (date) => {
+    setSelectedDate(date);
+    setSelectedSlot(null);
+    setAvailableSlots([]);
+    setError(null);
+
+    setFetchingSlots(true);
+    const slots = await getFilteredAvailableSlots(therapist.id,therapist.availableSlots, date);
+    setAvailableSlots(slots);
+    setFetchingSlots(false);
   };
 
   return (
@@ -140,26 +152,47 @@ async function handleBook() {
         )}
       </div>
 
+      {/* Date Picker */}
+      {showCalendar && (
+        <AppointmentDatePicker
+          selectedDate={selectedDate}
+          onDateChange={handleDateChange}
+        />
+      )}
+
       {/* Available Slots */}
-      <div>
-        <p className="text-sm font-medium text-gray-700 mb-1">Available Slots</p>
-        <div className="flex flex-wrap gap-2">
-          {(therapist.availableSlots || ["09:00 AM", "11:00 AM", "02:00 PM", "04:00 PM"]).map((slot, i) => (
-            <button
-              key={i}
-              onClick={() => handleSlotSelect(slot)}
-              className={`border text-sm px-3 py-1 rounded-md ${
-                selectedSlot === slot 
-                  ? 'bg-emerald-500 text-white border-emerald-500' 
-                  : 'border-emerald-500 text-emerald-600 hover:bg-emerald-50'
-              }`}
-              type="button"
-            >
-              {slot}
-            </button>
-          ))}
+      {showCalendar && (
+        <div>
+          <p className="text-sm font-medium text-gray-700 mb-1">Available Slots</p>
+
+          {fetchingSlots ? (
+            <p className="text-xs text-gray-500 italic">Loading slots...</p>
+          ) : availableSlots.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {availableSlots.map((slot, i) => (
+                <button
+                  key={i}
+                  onClick={() => handleSlotSelect(slot)}
+                  className={`border text-sm px-3 py-1 rounded-md ${
+                    selectedSlot === slot 
+                      ? 'bg-emerald-500 text-white border-emerald-500' 
+                      : 'border-emerald-500 text-emerald-600 hover:bg-emerald-50'
+                  }`}
+                  type="button"
+                >
+                  {slot}
+                </button>
+              ))}
+            </div>
+          ) : (
+            selectedDate && (
+              <p className="text-xs text-gray-500 italic">
+                No available slots for this date.
+              </p>
+            )
+          )}
         </div>
-      </div>
+      )}
 
       {/* Error message */}
       {error && (
@@ -170,15 +203,24 @@ async function handleBook() {
 
       {/* Actions */}
       <div className="flex items-center gap-3 mt-4">
-        <button
-          onClick={handleBook}
-          disabled={loading || isPending}
-          className={`flex-1 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold py-2 rounded-md ${
-            (loading || isPending) ? 'opacity-75 cursor-not-allowed' : ''
-          }`}
-        >
-          {loading || isPending ? "Processing..." : "Book Appointment"}
-        </button>
+        {!showCalendar ? (
+          <button
+            onClick={() => setShowCalendar(true)}
+            className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold py-2 rounded-md"
+          >
+            <CalendarIcon className="inline-block mr-2 w-4 h-4" /> Choose Date
+          </button>
+        ) : (
+          <button
+            onClick={handleBook}
+            disabled={loading || isPending}
+            className={`flex-1 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold py-2 rounded-md ${
+              (loading || isPending) ? 'opacity-75 cursor-not-allowed' : ''
+            }`}
+          >
+            {loading || isPending ? "Processing..." : "Book Appointment"}
+          </button>
+        )}
 
         {therapist.phone && (
           <a

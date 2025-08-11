@@ -26,28 +26,24 @@ const CTA = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button
             size="lg"
-            className="text-white hover:opacity-90 px-8 py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group flex items-center justify-center"
-            style={{ backgroundColor: "#7ce3b1" }}
+            className="text-white hover:opacity-90 px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-300 group flex items-center justify-center bg-emerald-600"
+           
           >
-            Book Your Appointment
+          <a href="/find-therapist">  Book Your Appointment</a>
             <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
           </button>
           <button
             variant="outline"
             size="lg"
-            className="border-2 text-white hover:text-gray-900 px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-300"
-            style={{
-              borderColor: "#7ce3b1",
-              color: "#7ce3b1",
-              backgroundColor: "transparent",
-            }}
+            className="border-2 text-white hover:text-gray-900 px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-300 bg-emerald-600"
+            
             onMouseEnter={(e) => {
-              e.target.style.backgroundColor = "#7ce3b1";
+              e.target.style.backgroundColor = "bg-emerald-600";
               e.target.style.color = "white";
             }}
             onMouseLeave={(e) => {
               e.target.style.backgroundColor = "transparent";
-              e.target.style.color = "#7ce3b1";
+              e.target.style.color = "bg-emerald-600";
             }}
           >
             Learn More

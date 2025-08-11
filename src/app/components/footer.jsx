@@ -22,13 +22,15 @@ const Footer = () => {
           {/* Company Info */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className=" h-54 rounded-lg flex overflow-hidden">
-                <img
-                  src="/logo.png"
-                  alt="Abhaile Physiotherapy Logo"
-                  className="w-full h-full object-contain"
-                />
-              </div>
+           <div className="h-[100px] sm:h-[120px] md:h-[140px] lg:h-[160px] rounded-lg flex overflow-hidden">
+  <img
+    src="/logo.png"
+    alt="Abhaile Physiotherapy Logo"
+    className="w-full h-full object-contain"
+  />
+</div>
+
+
             </div>
             <p className="text-gray-600 leading-relaxed max-w-md">
               Connecting patients with qualified physiotherapists for better
@@ -110,7 +112,7 @@ const Footer = () => {
               <li className="flex items-center gap-2"><BriefcaseBusiness className="h-4 w-4 text-green-500" /> Careers</li>
               <li className="flex items-center gap-2"><Newspaper className="h-4 w-4 text-green-500" /> Press & Media</li>
               <li className="flex items-center gap-2"><DollarSign className="h-4 w-4 text-green-500" /> Investor Relations</li>
-              <li className="flex items-center gap-2"><PenTool className="h-4 w-4 text-green-500" /> Blog</li>
+              <li className="flex items-center gap-2"><PenTool className="h-4 w-4 text-green-500" /> <a href="/blog">Blog</a></li>
               <li className="flex items-center gap-2"><Headset className="h-4 w-4 text-green-500" /> <a href="contact">Contact Us</a></li>
             </ul>
           </div>

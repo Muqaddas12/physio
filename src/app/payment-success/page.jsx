@@ -63,7 +63,7 @@ export default async function PaymentSuccess({ searchParams }) {
         </div>
 
         <Link
-          href="/"
+          href="/my-bookings"
           className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-md px-6 py-3 transition"
         >
           Your Bookings

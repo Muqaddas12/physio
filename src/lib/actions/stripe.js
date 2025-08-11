@@ -51,24 +51,28 @@ const treatmentTypeId=null
       throw new Error(booking.error || 'Booking creation failed')
     }
  const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: [
-        {
-          price_data: {
-            currency,
-            product_data: {
-              name: `Therapy with ${specialization || 'Physiotherapist'}`,
-              description: `Booking Ref: ${booking.data.bookingReference}`
-            },
-            unit_amount: Math.round(totalAmount * 100) // Stripe expects amount in cents
-          },
-          quantity: 1
-        }
-      ],
-      mode: 'payment',
- success_url :`${process.env.NEXT_PUBLIC_BASE_URL}/payment-success?session_id={CHECKOUT_SESSION_ID}&booking_id=${booking?.data?.bookingReference }`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cancel`
-    })
+  payment_method_types: ['card'],
+  line_items: [
+    {
+      price_data: {
+        currency,
+        product_data: {
+          name: `Therapy with ${specialization || 'Physiotherapist'}`,
+          description: `Booking Ref: ${booking.data.bookingReference}`,
+        },
+        unit_amount: Math.round(totalAmount * 100),
+      },
+      quantity: 1,
+    },
+  ],
+  mode: 'payment',
+  success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment-success?session_id={CHECKOUT_SESSION_ID}&booking_id=${booking.data.bookingReference}`,
+  cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment-cancel`,
+  metadata: {
+    bookingId: booking.data.id.toString(),
+  },
+});
+
 
     return {
       success: true,
@@ -81,16 +85,3 @@ const treatmentTypeId=null
     return { success: false, error: error.message }
   }
 }
-{/*
-    // 3. Create payment record in DB
-    const payment = await Prisma.payment.create({
-      data: {
-        bookingId: booking.data.id,
-        paymentMethodId,
-        amount: new Prisma.Decimal(totalAmount),
-        currency
-      }
-    })
-
-    // 4. Create Stripe Checkout Session
-   */}

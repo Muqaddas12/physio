@@ -29,6 +29,7 @@ const Header = ({ user = null }) => {
     }
   };
 
+
   return (
     <header className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4">
@@ -125,12 +126,12 @@ const Header = ({ user = null }) => {
                         </p>
                       )}
                     </div>
-                    {user.role?.name !== "Admin" && (
+                    {user.role?.name === "Admin" && (
                       <a
                         href={
                           user.role?.name === "physiotherapist"
                             ? "/therapist-bookings"
-                            : "/bookings"
+                            : "/my-bookings"
                         }
                         className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2"
                       >

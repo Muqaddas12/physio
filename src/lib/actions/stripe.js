@@ -6,6 +6,7 @@ import { createBooking } from './booking.js'
 
 const prisma = new PrismaClient()
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2022-11-15' })
+
 export async function createBookingAndPayment({
   patientId,
   physiotherapistId,
@@ -26,7 +27,7 @@ export async function createBookingAndPayment({
 
     const treatmentTypeId = null
 
-    // Create booking first
+    // 1️⃣ Create booking
     const booking = await createBooking({
       patientId,
       physiotherapistId,
@@ -43,42 +44,39 @@ export async function createBookingAndPayment({
       throw new Error(booking.error || 'Booking creation failed')
     }
 
-    // Create Stripe Checkout Session with expanded payment_intent
-    const session = await stripe.checkout.sessions.create(
-      {
-        payment_method_types: ['card'],
-        line_items: [
-          {
-            price_data: {
-              currency,
-              product_data: {
-                name: `Therapy with ${specialization || 'Physiotherapist'}`,
-                description: `Booking Ref: ${booking.data.bookingReference}`,
-              },
-              unit_amount: Math.round(totalAmount * 100),
+    // 2️⃣ Create Stripe Checkout Session
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency,
+            product_data: {
+              name: `Therapy with ${specialization || 'Physiotherapist'}`,
+              description: `Booking Ref: ${booking.data.bookingReference}`,
             },
-            quantity: 1,
+            unit_amount: Math.round(totalAmount * 100),
           },
-        ],
-        mode: 'payment',
-        success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment-success?session_id={CHECKOUT_SESSION_ID}&booking_id=${booking.data.bookingReference}`,
-        cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment-cancel`,
-        metadata: {
-          bookingId: booking.data.id.toString(),
+          quantity: 1,
         },
+      ],
+      mode: 'payment',
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment-success?session_id={CHECKOUT_SESSION_ID}&booking_id=${booking.data.bookingReference}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment-cancel`,
+      metadata: {
+        bookingId: booking.data.id.toString(),
       },
-      { expand: ['payment_intent'] }
-    )
+    })
 
-    // Save payment record
+    // 3️⃣ Save payment as pending with both IDs
     await prisma.payment.create({
       data: {
         bookingId: booking.data.id,
-        paymentMethodId,
+        paymentMethodId: 1,
         amount: totalAmount,
         currency,
-        stripePaymentIntentId: session.payment_intent?.id || null,
-        transactionId: session.id,
+        stripePaymentIntentId: session.payment_intent, // ✅ Store PI here
+        transactionId: session.id, // ✅ Store session ID
         status: 'pending',
         processedAt: null,
       },
@@ -94,6 +92,7 @@ export async function createBookingAndPayment({
     return { success: false, error: error.message }
   }
 }
+
 
 
 export async function createPayment({

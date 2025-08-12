@@ -10,7 +10,7 @@ export default async function PaymentSuccess({ searchParams }) {
   const sessionId = searchParams?.session_id;
   const bookingId = searchParams?.booking_id;
 
-  if (!sessionId || !bookingId) {
+  if (!sessionId) {
     return (
       <div className="min-h-screen flex items-center justify-center p-6">
         <p className="text-center text-red-600 text-lg font-semibold">

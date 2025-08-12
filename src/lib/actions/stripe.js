@@ -92,3 +92,68 @@ export async function createBookingAndPayment({
     return { success: false, error: error.message }
   }
 }
+
+
+
+export async function createPayment({
+  bookingId,
+  amount,
+  currency = 'EUR',
+  paymentMethodId = 1,
+}) {
+  try {
+    if (!bookingId || !amount) {
+      throw new Error('Missing required payment details')
+    }
+
+    // Fetch booking for metadata
+    const booking = await prisma.booking.findUnique({
+      where: { id: bookingId },
+    })
+    if (!booking) throw new Error('Booking not found')
+
+    // 1️⃣ Create Stripe Checkout Session
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency,
+            product_data: {
+              name: `Therapy Session`,
+              description: `Booking Ref: ${booking.bookingReference}`,
+            },
+            unit_amount: Math.round(amount * 100), // cents
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment-cancel`,
+      metadata: {
+        bookingId: bookingId.toString(),
+      },
+    })
+
+    // 2️⃣ Save payment with pending status
+    await prisma.payment.create({
+      data: {
+        bookingId,
+        paymentMethodId,
+        amount,
+        currency,
+        stripePaymentIntentId: '', // will be updated via webhook
+        transactionId: session.id, // checkout session ID
+        status: 'pending',
+        processedAt: null,
+      },
+    })
+
+    // 3️⃣ Return checkout URL
+    return { success: true, checkoutUrl: session.url }
+  } catch (error) {
+    console.error('Payment creation error:', error)
+    return { success: false, error: error.message }
+  }
+}

@@ -16,6 +16,7 @@ import {
 import Footer from "../components/footer";
 import { getBookingsByPatient, cancelBooking } from "@/lib/actions/booking";
 import { getCurrentUser } from "@/lib/auth";
+import { createPayment } from "@/lib/actions/stripe";
 
 const BookingsPage = () => {
   const [bookings, setBookings] = useState([]);
@@ -57,6 +58,33 @@ const BookingsPage = () => {
 
     fetchUserAndBookings();
   }, []);
+// Inside BookingsPage component
+
+const handlePayNow = async (booking) => {
+  try {
+    if (!user) {
+      alert("Please log in to make a payment.");
+      return;
+    }
+
+    const result = await createPayment({
+      bookingId: booking.id,
+      amount: booking.totalAmount,
+      currency: "EUR",
+    });
+
+    if (!result.success) {
+      alert(result.error || "Failed to start payment");
+      return;
+    }
+
+    // Redirect to Stripe checkout
+    window.location.href = result.checkoutUrl;
+  } catch (err) {
+    console.error("Payment error:", err);
+    alert("An error occurred while processing payment.");
+  }
+};
 
   // Handle booking cancellation
   const handleCancelBooking = async (bookingId) => {
@@ -429,10 +457,14 @@ const BookingsPage = () => {
                         {/* Action Buttons */}
                         <div className="flex flex-wrap gap-3 pt-4 border-t border-gray-100">
                           {(booking.paymentStatus === "unpaid" || booking.paymentStatus === "failed") && (
-                            <button className="flex-1 min-w-[200px] bg-emerald-500 hover:bg-emerald-600 text-white py-3 px-4 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2">
-                              <CreditCard className="h-4 w-4" />
-                              <span>Pay Now - €{booking.totalAmount}</span>
-                            </button>
+                           <button
+  onClick={() => handlePayNow(booking)}
+  className="flex-1 min-w-[200px] bg-emerald-500 hover:bg-emerald-600 text-white py-3 px-4 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2"
+>
+  <CreditCard className="h-4 w-4" />
+  <span>Pay Now - €{booking.totalAmount}</span>
+</button>
+
                           )}
 
                           {booking.status === "pending" && booking.paymentStatus !== "paid" && (

@@ -34,15 +34,16 @@ const Header = ({ user = null }) => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <div className="flex items-center gap-3 mt-2">
-            <a href="/" className="cursor-pointer block">
-              <img
-                src="/logo.png"
-                alt="Abaile Logo"
-                className="h-14 sm:h-16 md:h-20 lg:h-24 w-auto max-w-[220px] transition-opacity duration-200 hover:opacity-80"
-              />
-            </a>
-          </div>
+         <div className="flex items-center gap-3 mt-2">
+  <a href="/" className="cursor-pointer block">
+    <img
+      src="/logo.png"
+      alt="Abaile Logo"
+      className="h-16 sm:h-20 md:h-24 lg:h-28 w-auto max-w-[240px] transition-opacity duration-200 hover:opacity-80"
+    />
+  </a>
+</div>
+
 
           {/* Mobile Social Icons */}
           <div className="flex items-center space-x-4 md:hidden">

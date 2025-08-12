@@ -85,17 +85,52 @@ export default function TherapistCard({ therapist }) {
     setError(null);
   };
 
-  const handleDateChange = async (date) => {
-    setSelectedDate(date);
-    setSelectedSlot(null);
-    setAvailableSlots([]);
-    setError(null);
+ const handleDateChange = async (date) => {
+  setSelectedDate(date);
+  setSelectedSlot(null);
+  setError(null);
 
-    setFetchingSlots(true);
-    const slots = await getFilteredAvailableSlots(therapist.id,therapist.availableSlots, date);
-    setAvailableSlots(slots);
-    setFetchingSlots(false);
-  };
+  setFetchingSlots(true);
+
+  // Get all slots from your API or function
+  let slots = await getFilteredAvailableSlots(therapist.id, therapist.availableSlots, date);
+  console.log('slots', slots);
+  console.log('date', date);
+
+  const now = new Date();
+  const selected = new Date(date);
+  selected.setHours(0,0,0,0);
+
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  if (selected < today) {
+
+    slots = [];
+  } else if (selected.getTime() === today.getTime()) {
+
+    const thresholdTime = new Date(now.getTime() + 30 * 60 * 1000); // now + 30 min
+
+    slots = slots.filter(slot => {
+     
+      const [time, meridian] = slot.split(' ');
+      let [hours, minutes] = time.split(':').map(Number);
+
+      if (meridian === 'PM' && hours !== 12) hours += 12;
+      if (meridian === 'AM' && hours === 12) hours = 0;
+
+      const slotDateTime = new Date(selected);
+      slotDateTime.setHours(hours, minutes, 0, 0);
+
+      return slotDateTime >= thresholdTime;
+    });
+  }
+  // else future date - keep all slots as is
+
+  setAvailableSlots(slots);
+  setFetchingSlots(false);
+};
+
 
   return (
     <div className="bg-white border border-emerald-100 p-6 rounded-2xl shadow-md space-y-4 w-full max-w-lg mx-auto">

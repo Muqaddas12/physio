@@ -91,7 +91,7 @@ const Hero = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in delay-500">
-              <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 animate-pulse-subtle">
+              <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 ">
         <a href="/find-therapist">        Book Appointment</a>
               </button>
               <button className="border-2 bg-emerald-600 border-emerald-500  px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-300 hover:scale-105">

@@ -74,12 +74,10 @@ const Footer = () => {
   <a href="/find-therapist">Find Therapists</a>
 </li>
               <li className="flex items-center gap-2"><Calendar className="h-4 w-4 text-green-500" /> Book Appointment</li>
-              <li className="flex items-center gap-2"><Activity className="h-4 w-4 text-green-500" /> Treatment Areas</li>
-              <li className="flex items-center gap-2"><Wallet className="h-4 w-4 text-green-500" /> Insurance Coverage</li>
-              <li className="flex items-center gap-2"><User className="h-4 w-4 text-green-500" /> Patient Portal</li>
+          
+            
               <li className="flex items-center gap-2"><Library className="h-4 w-4 text-green-500" /> Health Resources</li>
-              <li className="flex items-center gap-2"><MessageSquare className="h-4 w-4 text-green-500" /> Patient Reviews</li>
-              <li className="flex items-center gap-2"><Smartphone className="h-4 w-4 text-green-500" /> Mobile App</li>
+        
             </ul>
           </div>
 
@@ -91,8 +89,7 @@ const Footer = () => {
             <ul className="space-y-2 text-gray-600">
               <li className="flex items-center gap-2"><UserPlus className="h-4 w-4 text-green-500" /> <a href="/register-therapist">Join Our Network</a></li>
               <li className="flex items-center gap-2"><Settings className="h-4 w-4 text-green-500" /> Therapist Portal</li>
-              <li className="flex items-center gap-2"><Library className="h-4 w-4 text-green-500" /> Professional Resources</li>
-              <li className="flex items-center gap-2"><GraduationCap className="h-4 w-4 text-green-500" /> Continuing Education</li>
+          
               <li className="flex items-center gap-2"><FolderOpen className="h-4 w-4 text-green-500" /> Practice Management</li>
               <li className="flex items-center gap-2"><CreditCard className="h-4 w-4 text-green-500" /> Payment & Billing</li>
               <li className="flex items-center gap-2"><HelpCircle className="h-4 w-4 text-green-500" /> Support Center</li>
@@ -108,10 +105,10 @@ const Footer = () => {
             <ul className="space-y-2 text-gray-600">
               <li className="flex items-center gap-2"><Info className="h-4 w-4 text-green-500" /> <a href="/about">About Us</a></li>
               <li className="flex items-center gap-2"><Target className="h-4 w-4 text-green-500" /> Our Mission</li>
-              <li className="flex items-center gap-2"><Users2 className="h-4 w-4 text-green-500" /> Leadership Team</li>
-              <li className="flex items-center gap-2"><BriefcaseBusiness className="h-4 w-4 text-green-500" /> Careers</li>
+             
+           
               <li className="flex items-center gap-2"><Newspaper className="h-4 w-4 text-green-500" /> Press & Media</li>
-              <li className="flex items-center gap-2"><DollarSign className="h-4 w-4 text-green-500" /> Investor Relations</li>
+              
               <li className="flex items-center gap-2"><PenTool className="h-4 w-4 text-green-500" /> <a href="/blog">Blog</a></li>
               <li className="flex items-center gap-2"><Headset className="h-4 w-4 text-green-500" /> <a href="contact">Contact Us</a></li>
             </ul>

@@ -183,10 +183,10 @@ export default function FindTherapistPage() {
               Book an appointment with our certified physiotherapists and get personalized treatment plans.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-gradient-to-r from-[#7ce3b1] to-[#6dd4a2] hover:from-[#6dd4a2] hover:to-[#5eb893] text-white px-8 py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <button className="bg-emerald-600 from-[#7ce3b1] to-[#6dd4a2] hover:from-[#6dd4a2] hover:to-[#5eb893] text-white px-8 py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                 Book Appointment Now
               </button>
-              <button className="border-2 border-[#7ce3b1] text-[#5eb893] hover:bg-[#7ce3b1]/10 px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-300 hover:scale-105">
+              <button className="border-2 border-[#7ce3b1] hover:bg-[#7ce3b1]/10 px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-300 hover:scale-105 bg-emerald-600">
                 Find Therapists
               </button>
             </div>

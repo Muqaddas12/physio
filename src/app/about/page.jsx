@@ -18,7 +18,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import Footer from "../components/footer";
-
+import BlogsSection from "../components/blogs";
 const AboutUsPage = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -221,7 +221,7 @@ const AboutUsPage = () => {
             <h1 className="text-6xl md:text-8xl font-bold text-green-500 mb-6 relative">
               About{" "}
               <span
-                className=" text-green-500  to-[#5dd498] animate-pulse"
+                className=" text-green-500  to-[#5dd498] "
                 
               >
                 AbhailePhysiotherapy
@@ -244,6 +244,10 @@ const AboutUsPage = () => {
           </div>
         </div>
       </section>
+
+    {/* blog section */}
+<BlogsSection/>
+
 
       {/* Mission Section */}
       <section

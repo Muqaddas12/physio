@@ -56,7 +56,7 @@ const Hero = () => {
     const dateSlug = selectedDate;
 
     // Construct the URL - format: /find/[service]/[location]/[date]
-    const url = `/find/${serviceSlug}/${locationSlug}/${dateSlug}`;
+    const url = `/find-therapist/${serviceSlug}/${locationSlug}/${dateSlug}`;
 
     // Navigate to the URL
     window.location.href = url;

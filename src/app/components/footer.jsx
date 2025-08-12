@@ -73,7 +73,7 @@ const Footer = () => {
   <Search className="h-4 w-4 text-green-500" />
   <a href="/find-therapist">Find Therapists</a>
 </li>
-              <li className="flex items-center gap-2"><Calendar className="h-4 w-4 text-green-500" /> Book Appointment</li>
+              <li className="flex items-center gap-2"><Calendar className="h-4 w-4 text-green-500" /> <a href="/find-therapist">Book Appointment</a></li>
           
             
               <li className="flex items-center gap-2"><Library className="h-4 w-4 text-green-500" /> Health Resources</li>
@@ -87,13 +87,13 @@ const Footer = () => {
               <Stethoscope className="h-5 w-5 text-green-500" /> For Therapists
             </h3>
             <ul className="space-y-2 text-gray-600">
-              <li className="flex items-center gap-2"><UserPlus className="h-4 w-4 text-green-500" /> <a href="/register-therapist">Join Our Network</a></li>
-              <li className="flex items-center gap-2"><Settings className="h-4 w-4 text-green-500" /> Therapist Portal</li>
+              <li className="flex items-center gap-2"><UserPlus className="h-4 w-4 text-green-500" /> <a href="/find-therapist">Join Our Network</a></li>
+              <li className="flex items-center gap-2"><Settings className="h-4 w-4 text-green-500" /><a href="/register-therapist"> Therapist Portal</a></li>
           
               <li className="flex items-center gap-2"><FolderOpen className="h-4 w-4 text-green-500" /> Practice Management</li>
-              <li className="flex items-center gap-2"><CreditCard className="h-4 w-4 text-green-500" /> Payment & Billing</li>
-              <li className="flex items-center gap-2"><HelpCircle className="h-4 w-4 text-green-500" /> Support Center</li>
-              <li className="flex items-center gap-2"><Share2 className="h-4 w-4 text-green-500" /> Referral Program</li>
+              <li className="flex items-center gap-2"><CreditCard className="h-4 w-4 text-green-500" /><a href="/my-bookings"> Payment & Billing</a></li>
+              <li className="flex items-center gap-2"><HelpCircle className="h-4 w-4 text-green-500" /><a href="/contact"> Support Center</a></li>
+            
             </ul>
           </div>
 
@@ -104,10 +104,10 @@ const Footer = () => {
             </h3>
             <ul className="space-y-2 text-gray-600">
               <li className="flex items-center gap-2"><Info className="h-4 w-4 text-green-500" /> <a href="/about">About Us</a></li>
-              <li className="flex items-center gap-2"><Target className="h-4 w-4 text-green-500" /> Our Mission</li>
+              <li className="flex items-center gap-2"><Target className="h-4 w-4 text-green-500" /> <a href="/about">Our Mission</a></li>
              
            
-              <li className="flex items-center gap-2"><Newspaper className="h-4 w-4 text-green-500" /> Press & Media</li>
+              <li className="flex items-center gap-2"><Newspaper className="h-4 w-4 text-green-500" /><a href="/blogs"> Press & Media</a></li>
               
               <li className="flex items-center gap-2"><PenTool className="h-4 w-4 text-green-500" /> <a href="/blog">Blog</a></li>
               <li className="flex items-center gap-2"><Headset className="h-4 w-4 text-green-500" /> <a href="contact">Contact Us</a></li>

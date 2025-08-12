@@ -76,7 +76,7 @@ const Footer = () => {
               <li className="flex items-center gap-2"><Calendar className="h-4 w-4 text-green-500" /> <a href="/find-therapist">Book Appointment</a></li>
           
             
-              <li className="flex items-center gap-2"><Library className="h-4 w-4 text-green-500" /> Health Resources</li>
+              <li className="flex items-center gap-2"><Library className="h-4 w-4 text-green-500" /> <a href="/health-resources">Health Resources</a></li>
         
             </ul>
           </div>

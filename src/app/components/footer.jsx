@@ -90,7 +90,7 @@ const Footer = () => {
               <li className="flex items-center gap-2"><UserPlus className="h-4 w-4 text-green-500" /> <a href="/find-therapist">Join Our Network</a></li>
               <li className="flex items-center gap-2"><Settings className="h-4 w-4 text-green-500" /><a href="/register-therapist"> Therapist Portal</a></li>
           
-              <li className="flex items-center gap-2"><FolderOpen className="h-4 w-4 text-green-500" /> Practice Management</li>
+              <li className="flex items-center gap-2"><FolderOpen className="h-4 w-4 text-green-500" /><a href="/login"> Practice Management</a></li>
               <li className="flex items-center gap-2"><CreditCard className="h-4 w-4 text-green-500" /><a href="/my-bookings"> Payment & Billing</a></li>
               <li className="flex items-center gap-2"><HelpCircle className="h-4 w-4 text-green-500" /><a href="/contact"> Support Center</a></li>
             

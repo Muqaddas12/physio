@@ -77,12 +77,14 @@ const Hero = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           <div className="space-y-8 animate-fade-in-up">
             <div className="space-y-4">
-              <h1 className="text-5xl lg:text-6xl font-bold text-green-500 leading-tight animate-slide-in-left">
-                Your Path to
-                <span className="text-green -500 block animate-bounce-subtle">
-                  Recovery Starts Here
-                </span>
-              </h1>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-green-500 leading-snug animate-slide-in-left">
+  Your Path to
+  <span className="text-green-500 block animate-bounce-subtle">
+    Recovery Starts Here
+  </span>
+</h1>
+
+
               <p className="text-xl text-gray-600 leading-relaxed animate-fade-in delay-300">
                 Book appointments with certified physiotherapists in your area.
                 Get personalized treatment plans and recover faster with expert

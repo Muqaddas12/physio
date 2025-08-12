@@ -229,12 +229,12 @@ const LoginPage = () => {
                       Remember me
                     </label>
                   </div>
-                  <a
+                  {/* <a
                     href="#"
                     className="text-sm text-emerald-600 hover:text-emerald-500 font-medium transition-colors duration-200"
                   >
                     Forgot password?
-                  </a>
+                  </a> */}
                 </div>
 
                 {/* Login Button */}

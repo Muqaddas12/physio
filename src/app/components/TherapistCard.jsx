@@ -57,7 +57,7 @@ export default function TherapistCard({ therapist }) {
             appointmentTime: selectedSlot,
             totalAmount: priceNumber,
             currency: "EUR",
-            paymentMethodId: 'card',
+            paymentMethodId: 'credit card',
             specialization: therapist.specialization,
           });
 

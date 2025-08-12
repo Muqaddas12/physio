@@ -9,7 +9,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
   patientId,
   physiotherapistId,
   clinicId,
-  appointmentTime,
+  appointmentTime, 
+  appointmentDate,
   totalAmount,
       currency,
   paymentMethodId,
@@ -19,8 +20,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
       patientNotes='',
 }) {
-const now = new Date();
-const appointmentDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
   try {
     // 1. Validate inputs
     if (

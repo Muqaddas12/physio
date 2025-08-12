@@ -14,6 +14,7 @@ export async function getFilteredAvailableSlots(userId, availableSlots, date) {
     if (!bookingsResult?.success) {
       return availableSlots;
     }
+    console.log(bookingsResult)
 
     const bookedTimes = bookingsResult.data
       .filter(b => {

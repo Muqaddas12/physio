@@ -1,3 +1,4 @@
+export const runtime = 'nodejs';
 import { PrismaClient } from '@prisma/client'
 import Stripe from 'stripe'
 

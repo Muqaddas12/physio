@@ -29,21 +29,44 @@ const Header = ({ user = null }) => {
     }
   };
 
-
   return (
     <header className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center">
           {/* Logo */}
-         <div className="flex items-center gap-3 mt-2">
-  <a href="/" className="cursor-pointer block">
-    <img
-      src="/logo.png"
-      alt="Abaile Logo"
-      className="h-12 sm:h-14 md:h-18 lg:h-24 w-auto max-w-[200px] transition-opacity duration-200 hover:opacity-80"
-    />
-  </a>
-</div>
+          <div className="flex items-center gap-3 mt-2">
+            <a href="/" className="cursor-pointer block">
+              <img
+                src="/logo.png"
+                alt="Abaile Logo"
+                className="h-14 sm:h-16 md:h-20 lg:h-24 w-auto max-w-[220px] transition-opacity duration-200 hover:opacity-80"
+              />
+            </a>
+          </div>
+
+          {/* Mobile Social Icons */}
+          <div className="flex items-center space-x-4 md:hidden">
+            <a
+              href="tel:18008647479"
+              className="text-gray-700 hover:text-[#7ce3b1] transition-colors duration-200"
+            >
+              <Phone size={18} />
+            </a>
+            <a
+              href="mailto:info@abhailephysiotherapy.com"
+              className="text-gray-700 hover:text-[#7ce3b1] transition-colors duration-200"
+            >
+              <Mail size={18} />
+            </a>
+            <a
+              href="https://wa.me/911234567890"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-700 hover:text-[#7ce3b1] transition-colors duration-200"
+            >
+              <MessageCircle size={18} />
+            </a>
+          </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
@@ -73,7 +96,7 @@ const Header = ({ user = null }) => {
               <Contact size={18} /> <span>Contact</span>
             </a>
 
-            {/* Social Icons Only */}
+            {/* Social Icons Desktop */}
             <div className="flex items-center space-x-4">
               <a
                 href="tel:18008647479"
@@ -196,19 +219,6 @@ const Header = ({ user = null }) => {
               <a href="/contact" className="flex items-center space-x-2 text-gray-700 hover:text-[#7ce3b1]">
                 <Contact size={18} /> <span>Contact</span>
               </a>
-
-              {/* Contact Icons in Mobile Menu */}
-              <div className="pt-4 border-t border-gray-100 flex space-x-4">
-                <a href="tel:18008647479" className="text-gray-700 hover:text-[#7ce3b1]">
-                  <Phone size={18} />
-                </a>
-                <a href="mailto:info@abhailephysiotherapy.com" className="text-gray-700 hover:text-[#7ce3b1]">
-                  <Mail size={18} />
-                </a>
-                <a href="https://wa.me/911234567890" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-[#7ce3b1]">
-                  <MessageCircle size={18} />
-                </a>
-              </div>
             </nav>
           </div>
         )}

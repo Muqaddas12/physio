@@ -1,13 +1,18 @@
 "use client";
-import { useSearchParams, useRouter } from "next/navigation";
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 
 export default function ResetPasswordPage() {
-  const params = useSearchParams();
-  const router = useRouter();
-  const token = params.get("token");
-  const email = params.get("email");
   const [status, setStatus] = useState("");
+  const [token, setToken] = useState("");
+  const [email, setEmail] = useState("");
+
+  // Get query params from window.location
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setToken(params.get("token") || "");
+    setEmail(params.get("email") || "");
+  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -21,7 +26,11 @@ export default function ResetPasswordPage() {
     const data = await res.json();
     setStatus(data.message);
 
-    if (data.success) setTimeout(() => router.push("/login"), 1500);
+    if (data.success) {
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 1500);
+    }
   }
 
   return (
@@ -29,8 +38,19 @@ export default function ResetPasswordPage() {
       <div className="max-w-md w-full p-6 bg-white rounded-xl shadow-lg">
         <h1 className="text-2xl font-bold mb-4">Reset Password</h1>
         <form onSubmit={handleSubmit}>
-          <input type="password" name="password" placeholder="Enter new password" required className="w-full border rounded p-2 mb-4"/>
-          <button type="submit" className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded w-full">Reset Password</button>
+          <input
+            type="password"
+            name="password"
+            placeholder="Enter new password"
+            className="w-full border rounded p-2 mb-4"
+            required
+          />
+          <button
+            type="submit"
+            className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded w-full"
+          >
+            Reset Password
+          </button>
         </form>
         {status && <p className="mt-4 text-sm text-gray-600">{status}</p>}
       </div>

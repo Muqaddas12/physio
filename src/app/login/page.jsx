@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Mail, Lock, Eye, EyeOff, LogIn } from "lucide-react";
 import { login, getCurrentUser } from "../../lib/auth";
-
+import Link from "next/link";
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -229,12 +229,12 @@ const LoginPage = () => {
                       Remember me
                     </label>
                   </div>
-                  {/* <a
-                    href="#"
-                    className="text-sm text-emerald-600 hover:text-emerald-500 font-medium transition-colors duration-200"
-                  >
-                    Forgot password?
-                  </a> */}
+                 <Link
+  href="/forgot-password"
+  className="text-sm text-emerald-600 hover:text-emerald-500 font-medium transition-colors duration-200"
+>
+  Forgot password?
+</Link>
                 </div>
 
                 {/* Login Button */}

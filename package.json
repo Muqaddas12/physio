@@ -14,6 +14,7 @@
     "seed": "node seed.js"
   },
   "dependencies": {
+    "@formspree/react": "^3.0.0",
     "@prisma/client": "^6.13.0",
     "@stripe/stripe-js": "^7.8.0",
     "bcrypt": "^5.1.1",

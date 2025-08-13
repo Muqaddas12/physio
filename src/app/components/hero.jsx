@@ -94,14 +94,16 @@ const Hero = () => {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 animate-fade-in delay-500">
-              <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 ">
-        <a href="/find-therapist">        Book Appointment</a>
-              </button>
-              <button className="border-2 bg-emerald-600 border-emerald-500  px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-300 hover:scale-105">
-                <a href="/find-therapist">Find Therapists</a>
-              </button>
-            </div>
+            <div className="flex flex-row gap-3 animate-fade-in delay-500">
+  <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 text-sm font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 w-45 sm:w-auto">
+    <a href="/find-therapist">Book Appointment</a>
+  </button>
+
+  <button className="border-2 bg-emerald-600 border-emerald-500 px-5 py-3 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-105 w-45 sm:w-auto">
+    <a href="/find-therapist">Find Therapists</a>
+  </button>
+</div>
+
 
             {/* Therapist CTA */}
             <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-emerald-100">

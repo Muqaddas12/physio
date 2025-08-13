@@ -33,10 +33,19 @@ const SpecializationsPage = () => {
 
   return (
     <>
-      <section className="relative bg-gradient-to-br from-[#7ce3b1]/10 via-white to-[#7ce3b1]/5 min-h-screen py-20 px-4 overflow-hidden">
+      <section
+    className="relative bg-gradient-to-br from-[#7ce3b1]/10 via-white to-[#7ce3b1]/5 min-h-screen py-20 px-4 overflow-hidden"
+    style={{
+      backgroundImage: "url('/bone.png')",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+    }}
+  >
       
         <div className="relative z-10 max-w-7xl mx-auto">
-      <div className="rounded-2xl shadow-xl backdrop-blur-sm bg-white/80 p-8 text-center space-y-6 mb-16 animate-fade-in-up transition duration-500">
+     <div className="rounded-2xl p-8 text-center space-y-6 mb-16 animate-fade-in-up transition duration-500">
+
   {/* Badge */}
   <div className="inline-flex items-center gap-2 bg-green-50 px-4 py-2 rounded-full animate-fade-in">
     <Stethoscope className="h-5 w-5 text-green-400 transition-transform duration-500 hover:scale-110" />

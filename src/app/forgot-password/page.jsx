@@ -1,4 +1,5 @@
 "use client";
+export const dynamic = "force-dynamic";
 import { sendResetLink } from "@/lib/actions/authActions";
 import { useState } from "react";
 

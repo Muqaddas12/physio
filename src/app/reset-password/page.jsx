@@ -2,7 +2,7 @@
 import { resetPassword } from "@/lib/actions/authActions";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState } from "react";
-
+export const dynamic = "force-dynamic";
 export default function ResetPasswordPage() {
   const params = useSearchParams();
   const router = useRouter();

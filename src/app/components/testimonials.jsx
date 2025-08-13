@@ -26,7 +26,8 @@ const Testimonials = () => {
   ];
 
   return (
-    <section className="py-20 px-4 bg-gray-50">
+   <section className="py-6 px-4 sm:py-20 bg-gray-50">
+
       <div className="max-w-6xl mx-auto">
         <div className="text-center space-y-4 mb-16 animate-fade-in-up">
           <h2 className="text-4xl lg:text-5xl font-bold text-green-500 animate-slide-in-down">

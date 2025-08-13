@@ -265,7 +265,9 @@ const IrelandPhysiotherapistMap = () => {
   };
 
   return (
-    <section className="relative bg-gradient-to-br from-emerald-50 via-white to-green-50 py-20">
+ <section className="relative bg-gradient-to-br from-emerald-50 via-white to-green-50 py-0 sm:py-20">
+
+
       <div className="w-full">
         {/* Header */}
         <div className="text-center space-y-4 mb-12 px-4 animate-fade-in-up">

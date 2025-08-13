@@ -41,7 +41,9 @@ const Features = () => {
   ];
 
   return (
-    <section className="py-20 px-4 bg-white">
+   <section className="py-4 px-4 sm:py-20 bg-white">
+
+
       <div className="max-w-6xl mx-auto">
         <div className="text-center space-y-4 mb-16 animate-fade-in-up">
           <h2 className="text-4xl lg:text-5xl font-bold text-green-500 animate-slide-in-down">

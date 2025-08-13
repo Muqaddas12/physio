@@ -87,8 +87,8 @@ const Footer = () => {
               <Stethoscope className="h-5 w-5 text-green-500" /> For Therapists
             </h3>
             <ul className="space-y-2 text-gray-600">
-              <li className="flex items-center gap-2"><UserPlus className="h-4 w-4 text-green-500" /> <a href="/find-therapist">Join Our Network</a></li>
-              <li className="flex items-center gap-2"><Settings className="h-4 w-4 text-green-500" /><a href="/register-therapist"> Therapist Portal</a></li>
+              <li className="flex items-center gap-2"><UserPlus className="h-4 w-4 text-green-500" /> <a href="/register-therapist">Join Our Network</a></li>
+            
           
               <li className="flex items-center gap-2"><FolderOpen className="h-4 w-4 text-green-500" /><a href="/login"> Practice Management</a></li>
               <li className="flex items-center gap-2"><CreditCard className="h-4 w-4 text-green-500" /><a href="/my-bookings"> Payment & Billing</a></li>

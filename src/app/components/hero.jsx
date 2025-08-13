@@ -63,7 +63,9 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative bg-gradient-to-br from-emerald-50 via-white to-green-50 py-20 pb-32 px-4 overflow-hidden">
+<section className="relative bg-gradient-to-br from-emerald-50 via-white to-green-50 py-10 sm:py-20 sm:pb-32 px-3 sm:px-4 overflow-hidden">
+
+
       {/* Background Image - Reduced size */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-10"

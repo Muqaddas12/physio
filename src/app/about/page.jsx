@@ -245,8 +245,7 @@ const AboutUsPage = () => {
         </div>
       </section>
 
-    {/* blog section */}
-<BlogsSection/>
+
 
 
       {/* Mission Section */}
@@ -499,6 +498,11 @@ const AboutUsPage = () => {
         <ChevronDown className="w-6 h-6 rotate-180 group-hover:-translate-y-1 transition-transform duration-300" />
       </button>
     </div>
+
+        {/* blog section */}
+<BlogsSection/>
+
+
     {/*  footer */}
     <Footer/>
     </>

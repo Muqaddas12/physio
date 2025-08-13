@@ -32,7 +32,8 @@ export default function BlogsSection() {
   const [featuredPost, ...sidePosts] = blogPosts;
 
   return (
-    <section className="relative bg-gradient-to-br from-emerald-50 via-white to-green-50 py-16 px-4 overflow-hidden">
+    <section className="relative bg-gradient-to-br from-emerald-50 via-white to-green-50 py-6 px-4 sm:py-16 overflow-hidden">
+
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-5"

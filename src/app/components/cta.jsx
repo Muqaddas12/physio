@@ -3,7 +3,8 @@ import { ArrowRight, Phone, Mail } from "lucide-react";
 
 const CTA = () => {
   return (
-    <section className="py-20 px-4 bg-gradient-to-br from-green-50 to-emerald-50 relative overflow-hidden">
+    <section className="py-6 px-4 sm:py-20 bg-gradient-to-br from-green-50 to-emerald-50 relative overflow-hidden">
+
       {/* Background Network Image */}
       <div className="absolute inset-0 opacity-10">
         <img

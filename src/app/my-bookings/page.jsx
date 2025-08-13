@@ -242,263 +242,230 @@ const handlePayNow = async (booking) => {
   }, [searchTerm, sortedBookings]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-green-50">
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">My Bookings</h1>
-          <p className="text-gray-600">
-            View and manage your physiotherapy appointments
-          </p>
-        </div>
-
-        {/* Search Bar */}
-        <div className="max-w-md mb-8 mx-auto">
-          <input
-            type="text"
-            placeholder="Search by Booking Ref or Physiotherapist"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-          />
-        </div>
-
-        {/* Loading State */}
-        {loading && (
-          <div className="flex justify-center items-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500"></div>
-            <span className="ml-3 text-gray-600">Loading your bookings...</span>
-          </div>
-        )}
-
-        {/* Error State */}
-        {error && !loading && (
-          <div className="text-center py-12">
-            <div className="text-6xl mb-4">⚠️</div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              Error Loading Bookings
-            </h3>
-            <p className="text-gray-600 mb-4">{error}</p>
-            <button
-              onClick={() => window.location.reload()}
-              className="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-lg font-semibold"
-            >
-              Try Again
-            </button>
-          </div>
-        )}
-
-        {/* Bookings List */}
-        {!loading && !error && (
-          <>
-            {filteredBookings.length === 0 ? (
-              <div className="text-center py-12">
-                <div className="text-6xl mb-4">📅</div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  No Bookings Found
-                </h3>
-                <p className="text-gray-600 mb-6">
-                  Try adjusting your search or create a new booking.
-                </p>
-                <a
-                  href="/"
-                  className="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-lg font-semibold inline-block"
-                >
-                  Find Therapists
-                </a>
-              </div>
-            ) : (
-              <div className="space-y-6">
-                {filteredBookings.map((booking) => {
-                  const statusDisplay = getStatusDisplay(booking.status);
-                  const paymentDisplay = getPaymentStatusDisplay(booking.paymentStatus);
-
-                  return (
-                    <div
-                      key={booking.id}
-                      className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
-                    >
-                      <div className="p-6">
-                        {/* Booking Header */}
-                        <div className="flex items-start justify-between mb-4">
-                          <div className="flex items-start gap-4">
-                            <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center">
-                              <User className="h-6 w-6 text-emerald-600" />
-                            </div>
-                            <div>
-                              <h3 className="text-xl font-semibold text-gray-900">
-                                {booking.physiotherapist}
-                              </h3>
-                              <p className="text-emerald-600 font-medium">
-                                {booking.treatmentType}
-                              </p>
-                              <p className="text-sm text-gray-500">
-                                Ref: {booking.bookingReference}
-                              </p>
-                            </div>
-                          </div>
-
-                          <div className="flex flex-col gap-2">
-                            <div
-                              className={`flex items-center gap-2 px-3 py-1 rounded-full ${statusDisplay.color}`}
-                            >
-                              {statusDisplay.icon}
-                              <span className="text-sm font-medium">{statusDisplay.label}</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Booking Details */}
-                        <div className="grid md:grid-cols-2 gap-4 mb-4">
-                          <div className="space-y-3">
-                            <div className="flex items-center gap-3">
-                              <Calendar className="h-5 w-5 text-gray-400" />
-                              <div>
-                                <p className="text-sm text-gray-500">Date</p>
-                                <p className="font-medium">{formatDate(booking.appointmentDate)}</p>
-                              </div>
-                            </div>
-
-                            <div className="flex items-center gap-3">
-                              <Clock className="h-5 w-5 text-gray-400" />
-                              <div>
-                                <p className="text-sm text-gray-500">Time</p>
-                                <p className="font-medium">
-                                  {formatTime(booking.appointmentTime)} ({booking.durationMinutes} mins)
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="space-y-3">
-                            <div className="flex items-center gap-3">
-                              <MapPin className="h-5 w-5 text-gray-400" />
-                              <div>
-                                <p className="text-sm text-gray-500">Location</p>
-                                <p className="font-medium">{booking.clinic?.name}</p>
-                                <p className="text-sm text-gray-600">
-                                  {booking.clinic?.addressLine1}, {booking.clinic?.city?.name}
-                                </p>
-                              </div>
-                            </div>
-
-                            <div className="flex items-center gap-3">
-                              <div className="w-5 h-5 flex items-center justify-center">
-                                <span className="text-emerald-600 font-bold">€</span>
-                              </div>
-                              <div>
-                                <p className="text-sm text-gray-500">Cost</p>
-                                <p className="font-medium">€{booking.totalAmount}</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Payment Alerts */}
-                        {booking.paymentStatus === "unpaid" && (
-                          <div className={`rounded-lg p-4 mb-4 border-2 ${paymentDisplay.bgColor}`}>
-                            <div className="flex items-start gap-3">
-                              <AlertTriangle className="h-5 w-5 text-orange-600 mt-0.5" />
-                              <div className="flex-1">
-                                <p className="font-semibold text-orange-800 mb-1">Payment Required</p>
-                                <p className="text-sm text-orange-700">
-                                  This booking has not been paid for yet. Please complete your payment to confirm your appointment.
-                                </p>
-                                <p className="text-sm text-orange-600 mt-1">
-                                  Amount due: <strong>€{booking.totalAmount}</strong>
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        )}
-
-                        {booking.paymentStatus === "failed" && (
-                          <div className="rounded-lg p-4 mb-4 border-2 bg-red-50 border-red-200">
-                            <div className="flex items-start gap-3">
-                              <XCircle className="h-5 w-5 text-red-600 mt-0.5" />
-                              <div className="flex-1">
-                                <p className="font-semibold text-red-800 mb-1">Payment Failed</p>
-                                <p className="text-sm text-red-700">
-                                  Your previous payment attempt failed. Please try again to secure your appointment.
-                                </p>
-                                <p className="text-sm text-red-600 mt-1">
-                                  Amount due: <strong>€{booking.totalAmount}</strong>
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        )}
-
-                        {/* Notes */}
-                        {(booking.patientNotes || booking.therapistNotes) && (
-                          <div className="border-t border-gray-100 pt-4 mb-4">
-                            {booking.patientNotes && (
-                              <div className="mb-3">
-                                <div className="flex items-center gap-2 mb-1">
-                                  <FileText className="h-4 w-4 text-gray-400" />
-                                  <span className="text-sm font-medium text-gray-700">Your Notes</span>
-                                </div>
-                                <p className="text-sm text-gray-600 pl-6">{booking.patientNotes}</p>
-                              </div>
-                            )}
-
-                            {booking.therapistNotes && (
-                              <div>
-                                <div className="flex items-center gap-2 mb-1">
-                                  <FileText className="h-4 w-4 text-gray-400" />
-                                  <span className="text-sm font-medium text-gray-700">Therapist Notes</span>
-                                </div>
-                                <p className="text-sm text-gray-600 pl-6">{booking.therapistNotes}</p>
-                              </div>
-                            )}
-                          </div>
-                        )}
-
-                        {/* Action Buttons */}
-                        <div className="flex flex-wrap gap-3 pt-4 border-t border-gray-100">
-                          {(booking.paymentStatus === "unpaid" || booking.paymentStatus === "failed") && (
-                           <button
-  onClick={() => handlePayNow(booking)}
-  className="flex-1 min-w-[200px] bg-emerald-500 hover:bg-emerald-600 text-white py-3 px-4 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2"
->
-  <CreditCard className="h-4 w-4" />
-  <span>Pay Now - €{booking.totalAmount}</span>
-</button>
-
-                          )}
-
-                          {booking.status === "pending" && booking.paymentStatus !== "paid" && (
-                            <button
-                              onClick={() => handleCancelBooking(booking.id)}
-                              disabled={cancellingBookingId === booking.id}
-                              className="px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                              {cancellingBookingId === booking.id ? "Cancelling..." : "Cancel Booking"}
-                            </button>
-                          )}
-
-                          <button className="px-4 py-2 border border-emerald-300 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors flex items-center gap-2">
-                            <Phone className="h-4 w-4" />
-                            <span>Contact</span>
-                          </button>
-
-                          {booking.status === "completed" && (
-                            <button className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg font-medium transition-colors">
-                              Leave Review
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </>
-        )}
-      </div>
-      <Footer />
+<div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-green-50">
+  <div className="max-w-6xl mx-auto px-4 py-8">
+    {/* Page Header */}
+    <div className="mb-8">
+      <h1 className="text-3xl font-bold text-gray-900 mb-2">My Bookings</h1>
+      <p className="text-gray-600">View and manage your physiotherapy appointments</p>
     </div>
+
+    {/* Search Bar */}
+    <div className="max-w-md mb-8 mx-auto">
+      <input
+        type="text"
+        placeholder="Search by Booking Ref or Physiotherapist"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+      />
+    </div>
+
+    {/* All Bookings */}
+    <div className="space-y-6">
+      {filteredBookings.map((booking) => {
+        const statusDisplay = getStatusDisplay(booking.status);
+        const paymentDisplay = getPaymentStatusDisplay(booking.paymentStatus);
+
+        return (
+          <div
+            key={booking.id}
+            className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+          >
+            <div className="p-6">
+              {/* Booking Header */}
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center">
+                    <User className="h-6 w-6 text-emerald-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-gray-900">
+                      {booking.physiotherapist || "Physiotherapist Name"}
+                    </h3>
+                    <p className="text-emerald-600 font-medium">
+                      {booking.treatmentType || "Treatment Type"}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      Ref: {booking.bookingReference || "N/A"}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <div
+                    className={`flex items-center gap-2 px-3 py-1 rounded-full ${statusDisplay.color}`}
+                  >
+                    {statusDisplay.icon}
+                    <span className="text-sm font-medium">{statusDisplay.label}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Booking Details */}
+              <div className="grid md:grid-cols-2 gap-4 mb-4">
+                <div className="space-y-3">
+                  {/* Date */}
+                  <div className="flex items-center gap-3">
+                    <Calendar className="h-5 w-5 text-gray-400" />
+                    <div>
+                      <p className="text-sm text-gray-500">Date</p>
+                      <p className="font-semibold text-gray-900">
+                        {booking.appointmentDate
+                          ? formatDate(booking.appointmentDate)
+                          : "Not provided"}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Time */}
+                  <div className="flex items-center gap-3">
+                    <Clock className="h-5 w-5 text-gray-400" />
+                    <div>
+                      <p className="text-sm text-gray-500">Time</p>
+                      <p className="font-semibold text-gray-900">
+                        {booking.appointmentTime
+                          ? `${formatTime(booking.appointmentTime)} (${booking.durationMinutes || "?"} mins)`
+                          : "Not provided"}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  {/* Location */}
+                  <div className="flex items-center gap-3">
+                    <MapPin className="h-5 w-5 text-gray-400" />
+                    <div>
+                      <p className="text-sm text-gray-500">Location</p>
+                      <p className="font-semibold text-gray-900">
+                        {booking.clinic?.name || "Clinic Name"}
+                      </p>
+                      <p className="text-sm text-gray-700">
+                        {booking.clinic?.addressLine1 || ""}{" "}
+                        {booking.clinic?.city?.name || ""}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Cost */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-5 h-5 flex items-center justify-center">
+                      <span className="text-emerald-600 font-bold">€</span>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Cost</p>
+                      <p className="font-semibold text-gray-900">
+                        €{booking.totalAmount || "0"}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Payment Alerts */}
+              {booking.paymentStatus === "unpaid" && (
+                <div className={`rounded-lg p-4 mb-4 border-2 ${paymentDisplay.bgColor}`}>
+                  <div className="flex items-start gap-3">
+                    <AlertTriangle className="h-5 w-5 text-orange-600 mt-0.5" />
+                    <div className="flex-1">
+                      <p className="font-semibold text-orange-800 mb-1">Payment Required</p>
+                      <p className="text-sm text-orange-700">
+                        Please complete your payment to confirm your appointment.
+                      </p>
+                      <p className="text-sm text-orange-600 mt-1">
+                        Amount due: <strong>€{booking.totalAmount}</strong>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {booking.paymentStatus === "failed" && (
+                <div className="rounded-lg p-4 mb-4 border-2 bg-red-50 border-red-200">
+                  <div className="flex items-start gap-3">
+                    <XCircle className="h-5 w-5 text-red-600 mt-0.5" />
+                    <div className="flex-1">
+                      <p className="font-semibold text-red-800 mb-1">Payment Failed</p>
+                      <p className="text-sm text-red-700">
+                        Your previous payment attempt failed. Please try again.
+                      </p>
+                      <p className="text-sm text-red-600 mt-1">
+                        Amount due: <strong>€{booking.totalAmount}</strong>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Notes */}
+              {(booking.patientNotes || booking.therapistNotes) && (
+                <div className="border-t border-gray-100 pt-4 mb-4">
+                  {booking.patientNotes && (
+                    <div className="mb-3">
+                      <div className="flex items-center gap-2 mb-1">
+                        <FileText className="h-4 w-4 text-gray-400" />
+                        <span className="text-sm font-medium text-gray-700">Your Notes</span>
+                      </div>
+                      <p className="text-sm text-gray-700 pl-6">{booking.patientNotes}</p>
+                    </div>
+                  )}
+
+                  {booking.therapistNotes && (
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <FileText className="h-4 w-4 text-gray-400" />
+                        <span className="text-sm font-medium text-gray-700">Therapist Notes</span>
+                      </div>
+                      <p className="text-sm text-gray-700 pl-6">{booking.therapistNotes}</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Actions */}
+              <div className="flex flex-wrap gap-3 pt-4 border-t border-gray-100">
+                {(booking.paymentStatus === "unpaid" || booking.paymentStatus === "failed") && (
+                  <button
+                    onClick={() => handlePayNow(booking)}
+                    className="flex-1 min-w-[200px] bg-emerald-500 hover:bg-emerald-600 text-white py-3 px-4 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2"
+                  >
+                    <CreditCard className="h-4 w-4" />
+                    <span>Pay Now - €{booking.totalAmount}</span>
+                  </button>
+                )}
+
+                {booking.status === "pending" && booking.paymentStatus !== "paid" && (
+                  <button
+                    onClick={() => handleCancelBooking(booking.id)}
+                    disabled={cancellingBookingId === booking.id}
+                    className="px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {cancellingBookingId === booking.id ? "Cancelling..." : "Cancel Booking"}
+                  </button>
+                )}
+
+                <button className="px-4 py-2 border border-emerald-300 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors flex items-center gap-2">
+                  <Phone className="h-4 w-4" />
+                  <span>Contact</span>
+                </button>
+
+                {booking.status === "completed" && (
+                  <button className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg font-medium transition-colors">
+                    Leave Review
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+  <Footer />
+</div>
+
+
   );
 };
 

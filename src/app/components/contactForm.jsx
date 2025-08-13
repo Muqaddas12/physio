@@ -120,6 +120,61 @@ export default function ContactForm() {
       >
         {state.submitting ? "Sending..." : "Send Message"}
       </button>
+
+
+      {/* Contact Info */}
+  <div className="pt-6 border-t border-gray-200 space-y-3 text-gray-700">
+    <div className="flex items-center gap-2">
+      {/* Phone Icon */}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-5 w-5 text-emerald-500"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M3 5a2 2 0 012-2h1.28a1 1 0 01.948.684l1.498 4.494a1 1 0 01-.27 1.054l-1.2 1.2a16.001 16.001 0 006.586 6.586l1.2-1.2a1 1 0 011.054-.27l4.494 1.498A1 1 0 0121 17.72V19a2 2 0 01-2 2h-1C9.163 21 3 14.837 3 7V5z"
+        />
+      </svg>
+      <a href="tel:18002242453" className="hover:text-emerald-600 transition">
+        1-800-ABHAILE (864-7479)
+      </a>
+    </div>
+
+    <div className="flex items-center gap-2">
+      {/* Email Icon */}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-5 w-5 text-emerald-500"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M16 12H8m0 0l4-4m-4 4l4 4"
+        />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-18 8h18a2 2 0 002-2V8a2 2 0 00-2-2H3a2 2 0 00-2 2v6a2 2 0 002 2z"
+        />
+      </svg>
+      <a
+        href="mailto:info@abhailephysiotherapy.com"
+        className="hover:text-emerald-600 transition"
+      >
+        info@abhailephysiotherapy.com
+      </a>
+    </div>
+  </div>
     </form>
   );
 }

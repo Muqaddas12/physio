@@ -1,7 +1,9 @@
 import { requireAuth } from "@/lib/auth";
 const Network = () => {
   return (
-    <section className="py-20 px-4 bg-white">
+<section className="py-6 sm:py-20 px-4 bg-white">
+
+
       <div className="max-w-6xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6 animate-fade-in-up">

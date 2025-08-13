@@ -71,7 +71,8 @@ const Stats = () => {
   }, [isVisible]);
   
   return (
-    <section className="py-16 px-4" style={{ backgroundColor: '#f0fdf7' }}>
+   <section className="py-6 px-4 sm:py-16" style={{ backgroundColor: '#f0fdf7' }}>
+
       <div className="max-w-6xl mx-auto">
         <div ref={statsRef} className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
           {statistics.map((stat, index) => (
